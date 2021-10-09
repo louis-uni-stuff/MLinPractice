@@ -12,6 +12,14 @@ As data source, we use the "Data Science Tweets 2010-2021" data set (version 3) 
 
 pipeline tweet replace_urls expand standardize lemmatize remove_stopwords
 
+### Prune By Language
+#### Goal
+**TODO** Lara
+#### Implementation Process
+**TODO** Lara
+#### Discussion
+**TODO** Lara
+
 ### Punctuation
 
 #### Goal
@@ -107,7 +115,15 @@ In the given dataset, the columns "Datetime" "Date" and "Time" contain informati
 #### Implementation Process
 The Implementations can be found here: [month.py](https://github.com/team-one-ML/MLinPractice/blob/main/code/feature_extraction/month.py), [weekday.py](https://github.com/team-one-ML/MLinPractice/blob/main/code/feature_extraction/weekday.py), [season.py](https://github.com/team-one-ML/MLinPractice/blob/main/code/feature_extraction/season.py), [daytime.py](https://github.com/team-one-ML/MLinPractice/blob/main/code/feature_extraction/daytime.py). The respective classes retrieve the relevant column from the dataset, convert it into [Datetime](https://docs.python.org/3/library/datetime.html)] format and transform the times into categorical data.
 #### Discussion
-**TODO**: After choosing final features
+**TODO**: Lara
+
+### Retrieve Attribute Counts or Binary Values
+#### Goal
+**TODO** Lara
+#### Implementation Process
+**TODO** Lara
+#### Discussion
+**TODO** Lara
 
 ### Sentiment Analysis
 
