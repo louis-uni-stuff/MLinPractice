@@ -1,16 +1,27 @@
 # Documentation - ML Pipeline - Team One 
 
+---
+---
+
 ## Research Hypothesis
 
-The goal of our example project is to predict which tweets will go viral, i.e., receive many likes and retweets. This criterion is defined by the sum of likes and retweets, where the threshold is specifiable by the user, but defaults to 50.
+The goal of our example project is to predict which tweets will go viral, i.e., receive many likes and retweets. This criterion is defined by the sum of likes and retweets, where the threshold is specifiable by the user, but defaults to 50. 
+
+---
+---
 
 ## Data Collection
 
 As data source, we use the "Data Science Tweets 2010-2021" data set (version 3) by Ruchi Bhatia from [Kaggle](https://www.kaggle.com/ruchi798/data-science-tweets). 
 
+---
+---
+
 ## Preprocessing
 
 pipeline tweet replace_urls expand standardize lemmatize remove_stopwords
+
+---
 
 ### Punctuation
 
@@ -22,6 +33,8 @@ We implemented a [PunctuationRemover class](https://github.com/team-one-ML/MLinP
 
 #### Discussion
 Removing punctuation may result in loss of context in cases where punctuation is used to convey emotional content (as with exclamation marks) or vital sentence meaning (as with question marks and commas). However, we believe that punctuation in the context of tweets only marginally influences meaning as many tweeters omit punctuation anyway and the character limit of 240 generally leads to less complex grammatical structure.  
+
+---
 
 ### Lowercase
 
@@ -43,6 +56,8 @@ The contractions are expanded by the [Expander](https://github.com/team-one-ML/M
 #### Discussion
 Adding this preprocessing step is not necessarily crucial to the preprocessing and one might argue that removing it may speed up the pipeline. However, it is a simple way to minimize the vocabulary of our dataset by avoiding unnecessary duplicate tokens and to ensure the fidelity of our model to semantics. To clarify, tokens with the same semantics should be classified as one item in a vocabulary, no matter if they are contracted or not.
 
+---
+
 ### Standardize Spelling Variations
 #### Goal
 Spelling variations arise due to misspellings or location-based differences. Different spellings for the same word add redundancy to our features, as they are counted as different vocabulary, eventhough their semantics are the same. Changing variations of words, in our case location-base differences, to a standard spelling ensures that semantic information for the words is kept and that they can be further dealt with as the same word.
@@ -50,6 +65,8 @@ Spelling variations arise due to misspellings or location-based differences. Dif
 The tweets are standardize by the [Standardizer](https://github.com/team-one-ML/MLinPractice/blob/main/code/preprocessing/standardize.py) class, while the spellings mapping can be found [here](https://github.com/team-one-ML/MLinPractice/blob/main/code/preprocessing/util/spellings.py). The Implementation is in line with the implementation for the expansion of contractions, as seen above, and uses as mapping of UK spellings to their respective US spellings. We treat the US spellings as the standard vocabulary, and change any UK variations to the standard US spelling.
 #### Discussion
 Adding this preprocessing step is not necessarily crucial to the preprocessing and one might argue that removing it may speed up the pipeline. However, it is a simple way to minimize the vocabulary of our dataset by avoiding unnecessary duplicate tokens and to ensure the fidelity of our model to semantics. To clarify, tokens with the same semantics should be classified as one item in a vocabulary, no matter if they are contracted or not.
+
+---
 
 ### Tokenizer
 
@@ -73,6 +90,8 @@ Numbers are replaced using a regular expression in the [RegexReplacer](https://g
 #### Discussion
 Replacing numbers with a generic token has the advantage of removing unnecessary noise from the dataset in order to aid in classification, assuming that individual number expressions are irrelevant to the task. Since the dataset specifically encompasses tweets related to data science, there is a chance that tweeters will use numbers more frequently and that numbers have a higher significance to the tweet message, but we believe that the specific value of the number expression does not influence virality.
 
+---
+
 ### URL removal
 #### Goal
 If a tweet in our dataset contains URLs, they have to be removed. This ensures that they do not influence feature extraction based on english language later on. For instance, we want to use features like named-entity-recognition and sentiment-analysis.
@@ -81,6 +100,7 @@ We used a regular expression in run_preprocessing.py to filter for URLs in the t
 #### Discussion
 **TODO**
 
+---
 
 ### Lemmatization
 #### Goal
@@ -90,6 +110,7 @@ We created the class "Lemmatizer" in lemmatizer.py which accesses the "WordNetLe
 #### Discussion
 **TODO**
 
+---
 
 ### Stopword removal
 #### Goal
@@ -99,7 +120,20 @@ We created the class "Stopword_remover" in stopword_remover.py which accesses a 
 #### Discussion
 **TODO**
 
+---
+---
+
 ## Feature Extraction
+
+### Character Length
+#### Goal
+**TODO**
+#### Implementation Process
+**TODO**
+#### Discussion
+**TODO**: After choosing final features
+
+---
 
 ### DateTime Transformations
 #### Goal
@@ -109,16 +143,20 @@ The Implementations can be found here: [month.py](https://github.com/team-one-ML
 #### Discussion
 **TODO**: After choosing final features
 
+---
+
 ### Sentiment Analysis
 
 #### Goal
 Our hypothesis is that emotionality and subjectivity of tweet content influences virality. We therefore choose to employ a sentiment analyzer to extract positive and negative sentiment from the tweets.
 
 #### Implementation Process
-We use the vader sentiment analyzer from the Natural Langauge Toolkit (NLTK) to extract postive, negative, neutral sentiment values that range from 0 to 1, as well as a compound value that ranges from -1 to 1. This analyzer is used in the [Sentiment feature extractor class](), which thus adds four output dimensions to the overall feature vector.
+We use the vader sentiment analyzer from the Natural Langauge Toolkit (NLTK) to extract postive, negative, neutral sentiment values that range from 0 to 1, as well as a compound value that ranges from -1 to 1. This analyzer is used in the [Sentiment feature extractor class](https://github.com/team-one-ML/MLinPractice/blob/main/code/feature_extraction/sentiment.py), which thus adds four output dimensions to the overall feature vector.
 
 #### Discussion
-Sentiment is often cited as one of the driving forces of content in social networks. We thus believe that it also plays a role in predicting tweet virality. The method of sentiment analysis used by the vader project, does not take into account sentence level semantics but merely word-level semantics. Specifically, it uses precalculated scores for the words it finds in the tweet to calculate an average sentiment for the whole text. This is a rather naive approach, but we believe it to be a worthwhile tradeoff between added value and performance.
+Sentiment is often cited as one of the driving forces of content in social networks. We thus believe that it also plays a role in predicting tweet virality. However, the method of sentiment analysis used by the vader project does not take into account sentence level semantics but merely word-level semantics. Specifically, it uses precalculated scores for the words it finds in the tweet to calculate an average sentiment for the whole text. This is a rather naive approach, but we believe it to be a worthwhile tradeoff between added value and performance.
+
+---
 
 ### TF-IDF
 
@@ -126,5 +164,51 @@ Sentiment is often cited as one of the driving forces of content in social netwo
 In order to find words that are relevant for classification we use TF-IDF, which calculates the term frequency divided by the inverse document frequency. 
 
 #### Implementation Process
+We use the [TfIdfVectorizer from scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html) to calculate TF-IDF scores for the top 200 words that appear in the dataset after removing all stopwords.
 
-####
+#### Discussion
+TODO
+
+---
+
+### Thread detection
+
+#### Goal
+Tweeters can group multiple tweets together using an informal mechanism called threads. In order to help classify the virality of tweets we detect whether a tweet is part of a thread.
+
+#### Implementation Process
+We use a simple Regular Expression to match the thread emoji, as well as number expressions like `1/` or `1/4` at the beginning or end of the tweet. 
+
+#### Discussion
+We considered matching the word 'thread' as well, but decided against it, since many tweets that merely respond to threads also mention the word thread.
+
+---
+
+### Named Entity Recognition
+#### Goal
+**TODO**
+#### Implementation Process
+**TODO**
+#### Discussion
+**TODO**: After choosing final features
+
+---
+---
+
+## Dimensionality Reduction
+
+### Mutual Information (MI)
+
+---
+
+### Principal Component Analysis (PCA)
+
+---
+---
+
+## Classification
+
+### SVM
+
+After an initial run on the testing set we got an accuracy of 94% with a Cohen's Kappa of 70%.
+Our happiness quickly faded after receiving 40% accuracy on the validation set.
