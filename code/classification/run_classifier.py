@@ -56,7 +56,7 @@ else:   # manually set up a classifier
     elif args.svm:
         #  Support Vector Machine
         print("    svm classifier")
-        classifier = LinearSVC(dual=False)
+        classifier = LinearSVC(dual=False, class_weight='balanced')
         classifier.fit(data["features"], data["labels"])
 
 # now classify the given data
