@@ -10,6 +10,7 @@ Created on Wed Sep 29 13:33:37 2021
 
 import argparse, pickle
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
+from sklearn.decomposition import PCA
 
 
 # setting up CLI
@@ -19,6 +20,7 @@ parser.add_argument("output_file", help = "path to the output pickle file")
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import an existing pipeline from the given location", default = None)
 parser.add_argument("-m", "--mutual_information", type = int, help = "select K best features with Mutual Information", default = None)
+parser.add_argument("-p", "--pca", type = int, help = "projects features into K main dimensions of variation using 'Principle Component Analysis'", default = None)
 parser.add_argument("--verbose", action = "store_true", help = "print information about feature selection process")
 args = parser.parse_args()
 
@@ -56,6 +58,19 @@ else: # need to set things up manually
             print("    {0}".format(feature_names))
             print("    " + str(dim_red.scores_))
             print("    " + str(get_feature_names(dim_red, feature_names)))
+    if args.pca is not None:
+        
+        pca = PCA(n_components=args.pca)
+        dim_red = pca.fit(features)
+
+        if args.verbose:
+            print("\n")
+            print("    Projecting features into {0} main dimensions of variation using PCA".format(args.pca))
+            print ("    Composition of the {0} dimensions:".format(args.pca))
+            print("\n")
+            for component in pca.components_:
+                print (" + ".join("    %.2f    x    %s    " % (value, name) for value, name in zip(component, feature_names)))
+                print("\n")
     pass
 
 # apply the dimensionality reduction to the given features
