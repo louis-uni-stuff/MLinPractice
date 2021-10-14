@@ -29,7 +29,6 @@ parser.add_argument("-n", "--informedness", action = "store_true", help = "evalu
 parser.add_argument("-b", "--balanced_accuracy", action = "store_true", help = "evaluate using balanced accuracy")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
 parser.add_argument("-f", "--f1_score", action = "store_true", help = "evaluate using the F1 score (or F-measure)")
-parser.add_argument("--knn", action = "store_true", help = "use KNN classifier", default=True)
 
 args = parser.parse_args()
 
@@ -65,7 +64,7 @@ else:   # manually set up a classifier
     elif args.knn:
         # KNN classifier
         print("    KNN classifier")
-        classifier = KNeighborsClassifier(algorithm="ball_tree", weights="distance", n_neighbors=10)
+        classifier = KNeighborsClassifier(algorithm="auto", weights="distance", n_neighbors=10)
         classifier.fit(data["features"], data["labels"].ravel())
 
 # now classify the given data
