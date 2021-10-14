@@ -139,6 +139,7 @@ The file `output.pickle` will be used to store the results of the dimensionality
 
 The dimensionality reduction method to be applied can be configured with the following optional parameters:
 - `-m` or `--mutual_information`: Select the `k` best features (where `k` is given as argument) with the Mutual Information criterion
+- `--tsvd`: Reduce dimensionality using truncated SVD (a fast variant of PCA)
 - `-p` or `--pca`: Projects features into the `k` main dimensions of variation (where `k` is given as argument) with the Principle Component Analysis criterion
 
 Moreover, the script support importing and exporting fitted dimensionality reduction techniques with the following optional arguments:
