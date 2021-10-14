@@ -18,7 +18,8 @@ conda install -y -q -c conda-forge nltk=3.6.3
 conda install -y -q -c conda-forge gensim=4.1.2
 conda install -y -q -c conda-forge spyder=5.1.5
 conda install -y -q -c conda-forge pandas=1.1.5
-conda install -y -q -c conda-forge spacy 
+conda install -y -q -c conda-forge spacy
+python3 -m spacy download en_core_web_sm
 ```
 
 You can double-check that all of these packages have been installed by running `conda list` inside of your virtual environment. The Spyder IDE can be started by typing `~/miniconda/envs/MLinPractice/bin/spyder` in your terminal window (assuming you use miniconda, which is installed right in your home directory).
@@ -139,6 +140,7 @@ The file `output.pickle` will be used to store the results of the dimensionality
 The dimensionality reduction method to be applied can be configured with the following optional parameters:
 - `-m` or `--mutual_information`: Select the `k` best features (where `k` is given as argument) with the Mutual Information criterion
 - `--tsvd`: Reduce dimensionality using truncated SVD (a fast variant of PCA)
+- `-p` or `--pca`: Projects features into the `k` main dimensions of variation (where `k` is given as argument) with the Principle Component Analysis criterion
 
 Moreover, the script support importing and exporting fitted dimensionality reduction techniques with the following optional arguments:
 - `-i` or `--import_file`: Load a configured and fitted dimensionality reduction technique from the given pickle file. Ignore all parameters that configure the dimensionality reduction technique.
