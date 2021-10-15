@@ -58,6 +58,9 @@ The script `run_preprocessing.py` is used to run various preprocessing steps on 
 ```python -m code.preprocessing.run_preprocessing path/to/input.csv path/to/output.csv```
 Here, `input.csv` is a csv file (ideally the output of `create_labels.py`), while `output.csv` is the csv file where the output will be written.
 
+If you wish to remove tweets that are not english:
+- `--prune-lang`: Drop rows of a language other than english 
+
 The preprocessing steps to take can be configured with the `--pipeline` flag:
 
 ```
@@ -66,12 +69,12 @@ The preprocessing steps to take can be configured with the `--pipeline` flag:
 
 Available preprocessors are:
 - `remove_urls` Has to be specified BEFORE --punctuation. Removes all URLs from the tweet and create a new column with the suffix "_urls_removed".
-- `punctuation` A new column "xxx_no_punctuation" is created, where all punctuation is removed from the original column. (See `code/preprocessing/punctuation_remover.py` for more details)
-- `tokenize` Tokenize the current column and create new column with suffix "_tokenized" containing tokenized tweet.
 - `lowercase` Lowercase the current column and create a new column with suffix "_lowercased" containing the lowercased text.
-- `numbers` Replace numbers with a generic number token and create a new column with suffix "_numbers_replaced"
-- `standardize` Standardize UK and US spelling variations to US spelling and create a new column with suffix "_standardized"
 - `expand` Expand contractions to their long form and create a new column with suffix "_expanded"
+- `punctuation` A new column "xxx_no_punctuation" is created, where all punctuation is removed from the original column. (See `code/preprocessing/punctuation_remover.py` for more details)
+- `standardize` Standardize UK and US spelling variations to US spelling and create a new column with suffix "_standardized"
+- `tokenize` Tokenize the current column and create new column with suffix "_tokenized" containing tokenized tweet.
+- `numbers` Replace numbers with a generic number token and create a new column with suffix "_numbers_replaced"
 - `lemmatize` Replace words with their lemma and create a new column with suffix "_lemmatized"
 - `remove_stopwords` Remove stopwords and create a new column with suffix "_removed_stopwords"
 
