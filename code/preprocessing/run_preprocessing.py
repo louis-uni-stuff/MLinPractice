@@ -32,11 +32,11 @@ parser.add_argument("-l", "--prune_lang", action="store_true")
 parser.add_argument("--pipeline", action='append', nargs='*', help="define a preprocessing pipeline e.g. --pipeline "
                                                                    "<column> preprocessor1 preprocessor 2 ... "
                                                                    "IMPORTANT: remove_urls has to run before punctuation"
-                                                                   "Available preprocessors: remove_urls, "
-                                                                   "lowercase, expand, tokenize, punctuation, "
-                                                                   "numbers, standardize, lemmatize, remove_stopwords")
+                                                                   "Available preprocessors in the correct order of application: remove_urls, "
+                                                                   "lowercase, expand, punctuation, standardize, tokenize,  "
+                                                                   "numbers,  lemmatize, remove_stopwords")
 
-parser.add_argument("--fast", action = "store_true", help = "only run preprocessing on a subset of the data set")
+parser.add_argument("--fast", type = int, help = "only run preprocessing on a subset of the data set. Specify subset size in int, e.g. --fast 100")
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 args = parser.parse_args()
 
@@ -45,7 +45,7 @@ df = pd.read_csv(args.input_file, quoting = csv.QUOTE_NONNUMERIC, lineterminator
 
 # Comment in for testing
 if args.fast:
-    df = df.drop(labels = range(100, df.shape[0]), axis = 0)
+    df = df.drop(labels = range(args.fast, df.shape[0]), axis = 0)
 
 # Removes rows in a language other than the one specified to keep
 if args.prune_lang:
@@ -63,24 +63,24 @@ if args.pipeline:
             if preprocessor == 'remove_urls':
                 preprocessors.append(RegexReplacer(current_column, current_column + SUFFIX_URLS_REMOVED, r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)', ""))
                 current_column = current_column + SUFFIX_URLS_REMOVED
-            elif preprocessor == 'punctuation':
-                preprocessors.append(PunctuationRemover(current_column, current_column + SUFFIX_PUNCTUATION))
-                current_column = current_column + SUFFIX_PUNCTUATION
             elif preprocessor == 'lowercase':
                 preprocessors.append(Lowercase(current_column, current_column + SUFFIX_LOWERCASED))
                 current_column = current_column + SUFFIX_LOWERCASED
             elif preprocessor == 'expand':
                 preprocessors.append(Expander(current_column, current_column + SUFFIX_CONTRACTIONS,))
-                current_column = current_column + SUFFIX_CONTRACTIONS
+                current_column = current_column + SUFFIX_CONTRACTIONS                
+            elif preprocessor == 'punctuation':
+                preprocessors.append(PunctuationRemover(current_column, current_column + SUFFIX_PUNCTUATION))
+                current_column = current_column + SUFFIX_PUNCTUATION
+            elif preprocessor == 'standardize':
+                preprocessors.append(Standardizer(current_column, current_column + SUFFIX_STANDARDIZED))
+                current_column = current_column + SUFFIX_STANDARDIZED
             elif preprocessor == 'tokenize':
                 preprocessors.append(Tokenizer(current_column, current_column + SUFFIX_TOKENIZED))
                 current_column = current_column + SUFFIX_TOKENIZED
             elif preprocessor == 'numbers':
                 preprocessors.append(RegexReplacer(current_column, current_column + SUFFIX_NUMBERS_REPLACED, r'(?<=\W)\d+(?=\W)|^\d+(?=\W)|(?<=\W)\d+$', TOKEN_NUMBER))
                 current_column = current_column + SUFFIX_NUMBERS_REPLACED
-            elif preprocessor == 'standardize':
-                preprocessors.append(Standardizer(current_column, current_column + SUFFIX_STANDARDIZED))
-                current_column = current_column + SUFFIX_STANDARDIZED
             elif preprocessor == 'lemmatize':
                 preprocessors.append(Lemmatizer(current_column, current_column+SUFFIX_LEMMATIZED))
                 current_column = current_column + SUFFIX_LEMMATIZED

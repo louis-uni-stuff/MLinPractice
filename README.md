@@ -80,7 +80,7 @@ Available preprocessors are:
 
 Moreover, the script accepts the following optional parameters:
 - `-e` or `--export` gives the path to a pickle file where an sklearn pipeline of the different preprocessing steps will be stored for later usage.
-- `--fast` only runs preprocessors on a small subset of the dataset
+- `--fast` only runs preprocessors on a small subset of the dataset. specify the subset size as an integer argument
 
 ### Splitting the Data Set
 
