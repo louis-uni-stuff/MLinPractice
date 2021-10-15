@@ -14,7 +14,7 @@ from code.feature_extraction.feature_extractor import FeatureExtractor
 
 # class for extracting a time feature
 # options: weekday, month, season or time of day of the post
-class CatTimeExtractor(FeatureExtractor):
+class OneHotTimeExtractor(FeatureExtractor):
     
     # constructor
     def __init__(self, input_column, feature):
