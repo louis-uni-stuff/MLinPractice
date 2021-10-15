@@ -81,6 +81,7 @@ Available preprocessors are:
 Moreover, the script accepts the following optional parameters:
 - `-e` or `--export` gives the path to a pickle file where an sklearn pipeline of the different preprocessing steps will be stored for later usage.
 - `--fast` only runs preprocessors on a small subset of the dataset
+
 ### Splitting the Data Set
 
 The script `split_data.py` splits the overall preprocessed data into training, validation, and test set. It can be invoked as follows:
@@ -124,7 +125,7 @@ The following features retrieve a boolean, if tweet has one of the following att
 - `--retweet_binary`: Convert if the tweet is a retweet into binary boolean values. (see code/feature_extraction/count_boolean)
 - 
 If you wish to retrieve the absolute counts of the above attributes, add the optional flag:
-- `--item_count`: Specify, to retrieve absolute counts of attributes (see code/feature_extraction/count_boolean)
+- `--item_count`: Specify, to retrieve absolute counts of the above attributes except for `--video_binary` and `--retweet_binary`.(see code/feature_extraction/count_boolean)
 
 Moreover, the script support importing and exporting fitted feature extractors with the following optional arguments:
 - `-i` or `--import_file`: Load a configured and fitted feature extraction from the given pickle file. Ignore all parameters that configure the features to extract.
@@ -165,6 +166,7 @@ By default, this data is used to train a classifier, which is specified by one o
 - `-m` or `--majority`: Majority vote classifier that always predicts the majority class.
 - `-q` or `--frequency`: Label-Frequency classifier that predicts the class according to the ratio of true:false labels in the training set.
 - `--svm`: Support Vector Machine classifier
+- `--knn`: K Nearest Neighbors classifier that predicts the class exhibited my the majority of an instance's k nearest neighbors in the feature space.
 
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 - `-a`or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
