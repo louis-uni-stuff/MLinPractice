@@ -10,7 +10,6 @@ Created on Tue Sep 28 16:43:18 2021
 
 import argparse, csv, pickle
 import pandas as pd
-import re
 from sklearn.pipeline import make_pipeline
 from code.preprocessing.punctuation_remover import PunctuationRemover
 from code.preprocessing.tokenizer import Tokenizer
