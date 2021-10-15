@@ -81,7 +81,6 @@ class OneHotTimeExtractor(FeatureExtractor):
 
         onehot_encoder = OneHotEncoder(sparse=False)
         result = np.asarray(result)
-        result2 = result
         result = result.reshape(len(result), 1)
         result = onehot_encoder.fit_transform(result)
         
