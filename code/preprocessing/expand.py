@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Preprocessor extends concatenations to their base words.
+Preprocessor extends concatenations to their long-forms.
 
 Created on Wed Oct 6 
 
 @author: lmcdonald
 """
 
-import string
 import re
 from code.preprocessing.preprocessor import Preprocessor
 from code.preprocessing.util.contractions import CONTRACTION_MAP
@@ -25,9 +24,11 @@ class Expander(Preprocessor):
     # get preprocessed column based on data frame and internal variables
     def _get_values(self, inputs, contraction_mapping=CONTRACTION_MAP):
        
+        # appends disjuncted contractions to RegEx string ("won't|can't|...")
         contractions_pattern = re.compile('({})'.format('|'.join(contraction_mapping.keys())), 
                                       flags=re.IGNORECASE|re.DOTALL)
 
+        # replace contractions with their long-forms
         def expand_match(contraction):
 
             match = contraction.group(0)

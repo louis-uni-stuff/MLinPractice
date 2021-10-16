@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -N setup
+#$ -l mem=4G
+#$ -cwd
+#$ -pe default 2
+#$ -o $HOME
+#$ -e $HOME
+
+export PATH="$HOME/miniconda/bin:$PATH"
+conda init bash
+eval "$(conda shell.bash hook)"
+conda activate MLinPractice
+
+./code/load_data.sh
+./code/preprocessing.sh
+./code/feature_extraction.sh
+./code/dimensionality_reduction.sh
+
+conda deactivate

@@ -14,7 +14,7 @@ from code.feature_extraction.feature_extractor import FeatureExtractor
 
 # class for extracting a time feature
 # options: weekday, month, season or time of day of the post
-class CatTimeExtractor(FeatureExtractor):
+class OneHotTimeExtractor(FeatureExtractor):
     
     # constructor
     def __init__(self, input_column, feature):
@@ -81,7 +81,6 @@ class CatTimeExtractor(FeatureExtractor):
 
         onehot_encoder = OneHotEncoder(sparse=False)
         result = np.asarray(result)
-        result2 = result
         result = result.reshape(len(result), 1)
         result = onehot_encoder.fit_transform(result)
         

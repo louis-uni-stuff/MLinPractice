@@ -24,13 +24,12 @@ parser.add_argument("-m", "--majority", action = "store_true", help = "majority 
 parser.add_argument("-q", "--frequency", action = "store_true", help = "label-frequency class classifier", default = None)
 parser.add_argument("--svm", action = "store_true", help = "svm classifier", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
-parser.add_argument("--mcc", action = "store_true", help = "evaluate using Mathews Correlation coefficient")
-parser.add_argument("-n", "--informedness", action = "store_true", help = "evaluate using informedness")
 parser.add_argument("-b", "--balanced_accuracy", action = "store_true", help = "evaluate using balanced accuracy")
+parser.add_argument("-n", "--informedness", action = "store_true", help = "evaluate using informedness")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
 parser.add_argument("-f", "--f1_score", action = "store_true", help = "evaluate using the F1 score (or F-measure)")
 parser.add_argument("--knn", action = "store_true", help = "use KNN classifier", default=None)
-
+parser.add_argument("--mcc", action = "store_true", help = "evaluate using Mathews Correlation coefficient")
 args = parser.parse_args()
 
 # load data

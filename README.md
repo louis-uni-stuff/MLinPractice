@@ -58,6 +58,9 @@ The script `run_preprocessing.py` is used to run various preprocessing steps on 
 ```python -m code.preprocessing.run_preprocessing path/to/input.csv path/to/output.csv```
 Here, `input.csv` is a csv file (ideally the output of `create_labels.py`), while `output.csv` is the csv file where the output will be written.
 
+If you wish to remove tweets that are not english:
+- `--prune-lang`: Drop rows of a language other than english 
+
 The preprocessing steps to take can be configured with the `--pipeline` flag:
 
 ```
@@ -66,18 +69,19 @@ The preprocessing steps to take can be configured with the `--pipeline` flag:
 
 Available preprocessors are:
 - `remove_urls` Has to be specified BEFORE --punctuation. Removes all URLs from the tweet and create a new column with the suffix "_urls_removed".
-- `punctuation` A new column "xxx_no_punctuation" is created, where all punctuation is removed from the original column. (See `code/preprocessing/punctuation_remover.py` for more details)
-- `tokenize` Tokenize the current column and create new column with suffix "_tokenized" containing tokenized tweet.
 - `lowercase` Lowercase the current column and create a new column with suffix "_lowercased" containing the lowercased text.
-- `numbers` Replace numbers with a generic number token and create a new column with suffix "_numbers_replaced"
-- `standardize` Standardize UK and US spelling variations to US spelling and create a new column with suffix "_standardized"
 - `expand` Expand contractions to their long form and create a new column with suffix "_expanded"
+- `punctuation` A new column "xxx_no_punctuation" is created, where all punctuation is removed from the original column. (See `code/preprocessing/punctuation_remover.py` for more details)
+- `standardize` Standardize UK and US spelling variations to US spelling and create a new column with suffix "_standardized"
+- `tokenize` Tokenize the current column and create new column with suffix "_tokenized" containing tokenized tweet.
+- `numbers` Replace numbers with a generic number token and create a new column with suffix "_numbers_replaced"
 - `lemmatize` Replace words with their lemma and create a new column with suffix "_lemmatized"
 - `remove_stopwords` Remove stopwords and create a new column with suffix "_removed_stopwords"
 
 Moreover, the script accepts the following optional parameters:
 - `-e` or `--export` gives the path to a pickle file where an sklearn pipeline of the different preprocessing steps will be stored for later usage.
-- `--fast` only runs preprocessors on a small subset of the dataset
+- `--fast` only runs preprocessors on a small subset of the dataset. specify the subset size as an integer argument
+
 ### Splitting the Data Set
 
 The script `split_data.py` splits the overall preprocessed data into training, validation, and test set. It can be invoked as follows:
@@ -121,7 +125,7 @@ The following features retrieve a boolean, if tweet has one of the following att
 - `--retweet_binary`: Convert if the tweet is a retweet into binary boolean values. (see code/feature_extraction/count_boolean)
 - 
 If you wish to retrieve the absolute counts of the above attributes, add the optional flag:
-- `--item_count`: Specify, to retrieve absolute counts of attributes (see code/feature_extraction/count_boolean)
+- `--item_count`: Specify, to retrieve absolute counts of the above attributes except for `--video_binary` and `--retweet_binary`.(see code/feature_extraction/count_boolean)
 
 Moreover, the script support importing and exporting fitted feature extractors with the following optional arguments:
 - `-i` or `--import_file`: Load a configured and fitted feature extraction from the given pickle file. Ignore all parameters that configure the features to extract.
@@ -162,6 +166,7 @@ By default, this data is used to train a classifier, which is specified by one o
 - `-m` or `--majority`: Majority vote classifier that always predicts the majority class.
 - `-q` or `--frequency`: Label-Frequency classifier that predicts the class according to the ratio of true:false labels in the training set.
 - `--svm`: Support Vector Machine classifier
+- `--knn`: K Nearest Neighbors classifier that predicts the class exhibited my the majority of an instance's k nearest neighbors in the feature space.
 
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 - `-a`or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
