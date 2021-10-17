@@ -9,10 +9,12 @@ Created on Wed Sep 29 14:23:48 2021
 """
 
 import argparse, pickle
+from numpy import true_divide
 from sklearn.svm import LinearSVC
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import accuracy_score, cohen_kappa_score, balanced_accuracy_score, matthews_corrcoef, f1_score
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Classifier")
@@ -22,7 +24,8 @@ parser.add_argument("-e", "--export_file", help = "export the trained classifier
 parser.add_argument("-i", "--import_file", help = "import a trained classifier from the given location", default = None)
 parser.add_argument("-m", "--majority", action = "store_true", help = "majority class classifier", default = None)
 parser.add_argument("-q", "--frequency", action = "store_true", help = "label-frequency class classifier", default = None)
-parser.add_argument("--svm", action = "store_true", help = "svm classifier", default = None)
+parser.add_argument("--svm", action = "store_true", help = "Support-Vector-Machine classifier", default = None)
+parser.add_argument("--mlp", action = "store_true", help = "Multi-Layered-Perceptron classifier", default = None)
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-b", "--balanced_accuracy", action = "store_true", help = "evaluate using balanced accuracy")
 parser.add_argument("-n", "--informedness", action = "store_true", help = "evaluate using informedness")
@@ -58,14 +61,21 @@ else:   # manually set up a classifier
     elif args.svm:
         #  Support Vector Machine
         print("    SVM classifier")
-        classifier = LinearSVC(dual=False, class_weight='balanced')
+        classifier = LinearSVC(dual=False, class_weight='balanced', random_state = args.seed)
         classifier.fit(data["features"], data["labels"].ravel())
 
     elif args.knn:
         # KNN classifier
         print("    KNN classifier")
-        classifier = KNeighborsClassifier(algorithm="auto", weights="distance", n_neighbors=10)
+        classifier = KNeighborsClassifier(algorithm="auto", weights="distance", n_neighbors=10, random_state = args.seed)
         classifier.fit(data["features"], data["labels"].ravel())
+
+    elif args.mlp:
+        #MLP classifier
+        print("    MLP classifier")
+        classifier = MLPClassifier(random_state = args.seed, verbose = True)
+        classifier.fit(data["features"], data["labels"].ravel())
+
 
 # now classify the given data
 prediction = classifier.predict(data["features"])

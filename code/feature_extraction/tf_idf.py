@@ -24,5 +24,4 @@ class TfIdf(FeatureExtractor):
 
     # compute the tf-idf matrix
     def _get_values(self, inputs):
-        print('TF-IDF vocabulary: {0}'.format(self._vectorizer.get_feature_names()))
         return self._vectorizer.transform(inputs[0]).toarray()
