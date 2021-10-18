@@ -130,7 +130,10 @@ dmypy.json
 .pyre/
 
 # exclude /data directory entirely
-/data/
+/data/classification/
+/data/feature_extraction/
+/data/preprocessing/
+/data/raw/
 
 # PyCharm
 /.idea/
