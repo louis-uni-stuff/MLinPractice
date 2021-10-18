@@ -7,10 +7,9 @@ Preprocessor that removes stopwords.
 
 from code.preprocessing.preprocessor import Preprocessor
 from nltk.corpus import stopwords
-import ast
 
 
-class Stopword_remover(Preprocessor):
+class StopwordRemover(Preprocessor):
     """Removes very common words (= stopwords)."""
 
     def __init__(self, input_col, output_col):

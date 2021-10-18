@@ -19,7 +19,7 @@ from code.preprocessing.expand import Expander
 from code.preprocessing.prune_languages import LanguagePruner
 from code.preprocessing.regex_replacer import RegexReplacer
 from code.preprocessing.lemmatizer import Lemmatizer
-from code.preprocessing.stopword_remover import Stopword_remover
+from code.preprocessing.stopword_remover import StopwordRemover
 from code.util import SUFFIX_PUNCTUATION, SUFFIX_STANDARDIZED, SUFFIX_TOKENIZED, SUFFIX_LOWERCASED, SUFFIX_URLS_REMOVED, SUFFIX_NUMBERS_REPLACED, TOKEN_NUMBER, SUFFIX_CONTRACTIONS, SUFFIX_LEMMATIZED, SUFFIX_REMOVED_STOPWORDS
 
 
@@ -84,7 +84,7 @@ if args.pipeline:
                 preprocessors.append(Lemmatizer(current_column, current_column+SUFFIX_LEMMATIZED))
                 current_column = current_column + SUFFIX_LEMMATIZED
             elif preprocessor == 'remove_stopwords':
-                preprocessors.append(Stopword_remover(current_column, current_column+SUFFIX_REMOVED_STOPWORDS))
+                preprocessors.append(StopwordRemover(current_column, current_column+SUFFIX_REMOVED_STOPWORDS))
                 current_column = current_column + SUFFIX_REMOVED_STOPWORDS
             else:
                 # first argument in pipeline is column
