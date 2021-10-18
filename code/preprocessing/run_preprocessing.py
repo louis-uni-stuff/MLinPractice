@@ -42,7 +42,6 @@ args = parser.parse_args()
 # load data
 df = pd.read_csv(args.input_file, quoting = csv.QUOTE_NONNUMERIC, lineterminator = "\n")
 
-# Comment in for testing
 if args.fast:
     df = df.drop(labels = range(args.fast, df.shape[0]), axis = 0)
 
