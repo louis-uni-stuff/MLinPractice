@@ -18,6 +18,7 @@ conda install -y -q -c conda-forge nltk=3.6.3
 conda install -y -q -c conda-forge gensim=4.1.2
 conda install -y -q -c conda-forge spyder=5.1.5
 conda install -y -q -c conda-forge pandas=1.1.5
+conda install -y -q -c conda-forge mlflow=1.20.2
 conda install -y -q -c conda-forge spacy
 python3 -m spacy download en_core_web_sm
 ```
@@ -166,6 +167,7 @@ By default, this data is used to train a classifier, which is specified by one o
 - `-m` or `--majority`: Majority vote classifier that always predicts the majority class.
 - `-q` or `--frequency`: Label-Frequency classifier that predicts the class according to the ratio of true:false labels in the training set.
 - `--svm`: Support Vector Machine classifier
+- `--mlp`: Multi Layered Perceptron classifier
 - `--knn`: K Nearest Neighbors classifier that predicts the class exhibited my the majority of an instance's k nearest neighbors in the feature space.
 
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
