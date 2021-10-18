@@ -6,14 +6,14 @@
 #$ -o $HOME
 #$ -e $HOME
 
-wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh -b -p "$HOME/miniconda"
-rm Miniconda3-latest-Linux-x86_64.sh
+curl -q https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o outfile
+bash Miniconda3-latest-MacOS-x86_64.sh -b -p "$HOME/miniconda"
+rm Miniconda3-latest-MacOS-x86_64.sh
 
 export PATH="$HOME/miniconda/bin:$PATH"
 conda init bash
 eval "$(conda shell.bash hook)"
-conda create -y -q --name MLinPractice python=3.6
+conda create -y -q --name MLinPractice python=3.8
 
 conda activate MLinPractice
 conda install -y -q -c conda-forge scikit-learn=0.24.2
