@@ -3,6 +3,8 @@
 # create directory if not yet existing
 mkdir -p data/classification/
 
+# Usage of Support-Vector-Machine classifier (--svm) because it performed best among all implemented classifiers
+
 # run feature extraction on training set (may need to fit extractors)
 echo "  training set"
 python -m code.classification.run_classifier data/dimensionality_reduction/training.pickle -e data/classification/classifier.pickle --svm --accuracy --mcc --informedness --balanced_accuracy --kappa --f1_score

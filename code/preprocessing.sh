@@ -4,7 +4,7 @@
 mkdir -p data/preprocessing/split/
 
 # install all NLTK models
-python -m nltk.downloader all -q -d "$(pwd)"
+python -m nltk.downloader all -q
 
 # add labels
 echo "  creating labels"

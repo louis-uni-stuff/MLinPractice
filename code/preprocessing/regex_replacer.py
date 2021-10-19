@@ -11,6 +11,7 @@ import re
 
 
 class RegexReplacer(Preprocessor):
+    """Preprocessor that replaces text matched by a regex with a predefined text."""
     
     # constructor
     def __init__(self, input_col, output, regex, replacement):
