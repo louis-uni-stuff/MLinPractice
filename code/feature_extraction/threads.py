@@ -12,8 +12,8 @@ import numpy as np
 import re
 from code.feature_extraction.feature_extractor import FeatureExtractor
 
-# class for extracting the character-based length as a feature
 class Threads(FeatureExtractor):
+    """class for extracting the character-based length as a feature"""
     
     # constructor
     def __init__(self, input_column):

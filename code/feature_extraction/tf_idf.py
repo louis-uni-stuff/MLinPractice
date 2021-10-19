@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Simple feature that counts the number of characters in the given column.
+Simple feature that extracts TF-IDF scores for the 200 most used words
 
-Created on Wed Sep 29 12:29:25 2021
-
-@author: lbechberger
+@author: marcelklehr
 """
 import numpy as np
 from code.feature_extraction.feature_extractor import FeatureExtractor
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 class TfIdf(FeatureExtractor):
+    """Class that extracts TF-IDF scores for the 200 most used words"""
     
     # constructor
     def __init__(self, input_column):

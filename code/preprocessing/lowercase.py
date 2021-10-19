@@ -10,6 +10,7 @@ from code.preprocessing.preprocessor import Preprocessor
 
 
 class Lowercase(Preprocessor):
+    """Preprocessor that lowercases the original tweet text"""
 
     # constructor
     def __init__(self, input_column, output_column):
