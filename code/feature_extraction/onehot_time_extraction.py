@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Feature that gives categorical value to datetime of post
-
+Feature that gives categorical value to datetime of post.
 @author: lmcdonald
 """
 

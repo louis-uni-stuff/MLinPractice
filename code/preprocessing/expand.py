@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Preprocessor extends concatenations to their long-forms.
-
-Created on Wed Oct 6 
-
 @author: lmcdonald
 """
 

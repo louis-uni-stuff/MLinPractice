@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Unittester for the TF-IDF feature extractor.
+@author: marcelklehr
+"""
 
 import unittest
 import pandas as pd

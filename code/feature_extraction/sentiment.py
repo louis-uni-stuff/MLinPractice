@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Simple feature that calculates tweet sentiment as a feature
-
-@author: marcelklehr
+Simple feature that counts the number of characters in the given column.
+@author: lbechberger
 """
 
 import numpy as np

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Named-entity-recognition (NER): Feature that recognizes named entities in the tweet.
-Created on Sat Oct 9 23:59:37 2021
 @author: louiskhub
 """
 
@@ -23,18 +22,18 @@ class NER(FeatureExtractor):
     # compute the named entities based on the inputs
     def _get_values(self, inputs):
         
-        result = np.empty(shape=(0,18))
-        nlp = spacy.load("en_core_web_sm")
+        result = np.empty(shape=(0,18))         # for later storage
+        nlp = spacy.load("en_core_web_sm")      # trained English pipeline 
 
         for row in inputs[0]:
             
-            tokens = ' '.join(row)
+            tokens = ' '.join(row)              # SpaCy func needs a string not tokens 
             doc = nlp(tokens)
             ents = np.zeros(shape=18)
             
             for token in doc:
-                ent_type = token.ent_type_
-                if ent_type != '':
+                ent_type = token.ent_type_      # look for all Entity types provided by SpaCy
+                if ent_type != '':              # (Reference: https://miro.medium.com/max/2400/1*QXIMTMpUCUmS4CIjHQoM-Q.png)
                     if ent_type == 'PERSON':
                         ents[0] += 1
                     elif ent_type == 'NORP':
@@ -72,6 +71,6 @@ class NER(FeatureExtractor):
                     elif ent_type == 'CARDINAL':
                         ents[17] += 1
             
-            result = np.append(result, [ents], axis=0)
+            result = np.append(result, [ents], axis=0) 
                     
         return result

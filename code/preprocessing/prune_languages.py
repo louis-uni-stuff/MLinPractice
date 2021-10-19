@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Discards rows written in a language other than the one specified
-
 @author: lmcdonald
 """
 

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Simple feature that extracts TF-IDF scores for the 200 most used words
-
 @author: marcelklehr
 """
 import numpy as np

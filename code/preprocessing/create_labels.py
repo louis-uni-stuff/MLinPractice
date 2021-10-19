@@ -4,8 +4,6 @@
 Reads in the original csv files and creates labels for the data points.
 Stores the result as a single pandas DataFrame in a pickle file.
 
-Created on Tue Sep 28 15:55:44 2021
-
 @author: lbechberger
 """
 

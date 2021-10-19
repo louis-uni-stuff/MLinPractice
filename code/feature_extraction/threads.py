@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Simple feature that checks whether this is a tweet as part of a thread
-
-Created on Wed Sep 29 12:29:25 2021
-
 @author: marcelklehr
 """
 

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Retrieves a count of items in list-type column or returns boolean if list is not empty.
-
 @author: lmcdonald
 """
 

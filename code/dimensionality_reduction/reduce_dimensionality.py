@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Apply a dimensionality reduction technique.
-
-Created on Wed Sep 29 13:33:37 2021
-
 @author: lbechberger
 """
 
@@ -16,14 +13,18 @@ from sklearn.decomposition import PCA
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Dimensionality reduction")
+# mandatory
 parser.add_argument("input_file", help = "path to the input pickle file")
 parser.add_argument("output_file", help = "path to the output pickle file")
+# optional
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import an existing pipeline from the given location", default = None)
+parser.add_argument("--verbose", action = "store_true", help = "print information about feature selection process")
+# dimensionality reducers
 parser.add_argument("-m", "--mutual_information", type = int, help = "select K best features with Mutual Information", default = None)
 parser.add_argument("--tsvd", action = "store_true", help = "find embedding space using truncated SVD", default = None)
 parser.add_argument("-p", "--pca", type = int, help = "projects features into K main dimensions of variation using 'Principle Component Analysis'", default = None)
-parser.add_argument("--verbose", action = "store_true", help = "print information about feature selection process")
+
 args = parser.parse_args()
 
 # load the data

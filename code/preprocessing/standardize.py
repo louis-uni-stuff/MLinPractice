@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Preprocessor replaces UK spelling variations with their US equivalent to standardize spellings
-
-Created on Wed Oct 6 
-
 @author: lmcdonald
 """
 
