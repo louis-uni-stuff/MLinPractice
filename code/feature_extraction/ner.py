@@ -34,7 +34,7 @@ class NER(FeatureExtractor):
             
             for token in doc:
                 ent_type = token.ent_type_
-                if ent_type is not '':
+                if ent_type != '':
                     if ent_type == 'PERSON':
                         ents[0] += 1
                     elif ent_type == 'NORP':
