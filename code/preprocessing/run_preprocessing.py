@@ -31,10 +31,9 @@ parser.add_argument("-l", "--prune_lang", action="store_true")
 parser.add_argument("--pipeline", action='append', nargs='*', help="define a preprocessing pipeline e.g. --pipeline "
                                                                    "<column> preprocessor1 preprocessor 2 ... "
                                                                    "IMPORTANT: remove_urls has to run before punctuation"
-                                                                   "Available preprocessors in the correct order of application: remove_urls, "
-                                                                   "lowercase, expand, punctuation, standardize, tokenize,  "
-                                                                   "numbers,  lemmatize, remove_stopwords")
-
+                                                                   "Available preprocessors in the correct order of application: "
+                                                                   "remove_urls, lowercase, expand, punctuation, standardize,  "
+                                                                   "tokenize, numbers,  lemmatize, remove_stopwords")
 parser.add_argument("--fast", type = int, help = "only run preprocessing on a subset of the data set. Specify subset size in int, e.g. --fast 100")
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 args = parser.parse_args()

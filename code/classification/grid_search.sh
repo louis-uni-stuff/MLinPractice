@@ -1,3 +1,5 @@
+""" Automized Hyperparameter Optimization for the MLP classifier """
+
 #!/bin/bash
 
 mkdir -p data/classification

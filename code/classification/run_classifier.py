@@ -30,7 +30,11 @@ parser.add_argument("-m", "--majority", action = "store_true", help = "majority 
 parser.add_argument("-q", "--frequency", action = "store_true", help = "label-frequency class classifier", default = None)
 # Classifiers
 parser.add_argument("--svm", action = "store_true", help = "Support-Vector-Machine classifier", default = None)
-parser.add_argument("--mlp", nargs = "*", action = "append", help = "Multi-Layered-Perceptron classifier", default = None)
+parser.add_argument("--mlp", nargs = "*", action = "append", help = "Multi-Layered-Perceptron classifier " 
+                                                                    "<column> hyperparam1 hyperparam2 ... "
+                                                                    "Available hyperparams in the correct order of application: "
+                                                                    "hidden_layer_sizes, activation, solver, max_fun ",
+                                                                    default = None)
 parser.add_argument("--knn", action = "store_true", help = "use KNN classifier", default=None)
 # Evaluation Metrics
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
@@ -55,9 +59,10 @@ if args.import_file is not None:
         input_dict = pickle.load(f_in)
 
     classifier = input_dict["classifier"]
+    
+    # Logs for MLflow
     for param, value in input_dict["params"].items():
         log_param(param, value)
-
     log_param("dataset","validation")
 
 else:   # manually set up a classifier
@@ -65,45 +70,58 @@ else:   # manually set up a classifier
     if args.majority:
         # majority vote classifier
         print("    majority vote classifier")
-        log_param("classifier", "majority")
+
+        log_param("classifier", "majority") # Log for MLflow
         params = {"classifier": "majority"}
+
         classifier = DummyClassifier(strategy = "most_frequent", random_state = args.seed)
         classifier.fit(data["features"], data["labels"])
 
     elif args.frequency:
         # label-frequency classifier
         print("    label-frequency classifier")
-        log_param("classifier", "frequency")
+        
+        log_param("classifier", "frequency") # Log for MLflow
         params = {"classifier": "frequency"}
+
         classifier = DummyClassifier(strategy = "stratified", random_state = args.seed)
         classifier.fit(data["features"], data["labels"])
 
     elif args.svm:
         #  Support Vector Machine
         print("    SVM classifier")
-        log_param("classifier", "svm")
+
+        log_param("classifier", "svm") # Log for MLflow
         params = {"classifier": "svm"}
+
         classifier = LinearSVC(dual=False, class_weight='balanced', random_state = args.seed)
         classifier.fit(data["features"], data["labels"].ravel())
 
     elif args.knn:
         # KNN classifier
         print("    KNN classifier")
-        log_param("classifier", "knn")
+
+        log_param("classifier", "knn") # Log for MLflow
         params = {"classifier": "knn"}
+
         classifier = KNeighborsClassifier(algorithm="auto", weights="distance", n_neighbors=10, random_state = args.seed)
         classifier.fit(data["features"], data["labels"].ravel())
 
     elif args.mlp:
         #MLP classifier
         print("    MLP classifier")
-        args.mlp = [(100,), "relu", "adam", 15000] if args.mlp == [[]] else [item for sublist in args.mlp for item in sublist]
+        
+        # Fill hyperparams with default values if not specified in CLI
+        args.mlp = [(100,), "identity", "adam", 15000] if args.mlp == [[]] else [item for sublist in args.mlp for item in sublist]
+        
+        # Logs for MLflow
         log_param("classifier", "mlp")
         log_param("hidden_layer_sizes", args.mlp[0])
         log_param("activation", args.mlp[1])
         log_param("solver", args.mlp[2])
         log_param("max_fun", args.mlp[3])
         params = {"classifier": "mlp", "hidden_layer_sizes": args.mlp[0], "activation": args.mlp[1], "solver": args.mlp[2], "max_fun": args.mlp[3]}
+
         classifier = MLPClassifier(hidden_layer_sizes = (int(args.mlp[0]),), activation = args.mlp[1], solver = args.mlp[2], max_fun = int(args.mlp[3]), random_state = args.seed)
         classifier.fit(data["features"], data["labels"].ravel())
 
@@ -131,9 +149,9 @@ if args.mcc:
 # compute and print them
 for metric_name, metric in evaluation_metrics:
     metric_value = metric(data["labels"], prediction)
-    log_metric(metric_name, metric_value)
     print("    {0}: {1}".format(metric_name, metric_value))
 
+    log_metric(metric_name, metric_value) # Log for MLflow
     
 # export the trained classifier if the user wants us to do so
 if args.export_file is not None:

@@ -167,8 +167,9 @@ By default, this data is used to train a classifier, which is specified by one o
 - `-m` or `--majority`: Majority vote classifier that always predicts the majority class.
 - `-q` or `--frequency`: Label-Frequency classifier that predicts the class according to the ratio of true:false labels in the training set.
 - `--svm`: Support Vector Machine classifier
-- `--mlp`: Multi Layered Perceptron classifier
 - `--knn`: K Nearest Neighbors classifier that predicts the class exhibited my the majority of an instance's k nearest neighbors in the feature space.
+- `--mlp`: Multi Layered Perceptron classifier that takes hyperparameters as arguments (If none are entered, the values which performed best in our tests are chosen)<br>
+Arguments: hidden_layer_sizes (int), activation (str), solver (str), max_fun (int)
 
 The classifier is then evaluated, using the evaluation metrics as specified through the following optional arguments:
 - `-a`or `--accuracy`: Classification accurracy (i.e., percentage of correctly classified examples).
