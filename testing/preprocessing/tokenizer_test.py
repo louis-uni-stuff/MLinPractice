@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Unittester for the tokenizer preprocessor.
-Created on Thu Oct  7 14:30:41 2021
 @author: lbechberger
 """
 

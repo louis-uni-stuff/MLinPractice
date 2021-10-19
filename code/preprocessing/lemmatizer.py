@@ -23,19 +23,18 @@ class Lemmatizer(Preprocessor):
     def _get_values(self, inputs):
         """Lemmatize the words."""
         
-        lemmatized_col = []
+        lemmatized_col = []                             # We later append the lemmatized tweets to this list
         lemmatizer = WordNetLemmatizer()
         for row in inputs[0]:
             lemmatized = []
-            string = ast.literal_eval(row)
-            for token, tag in pos_tag(string):
+            iterable = ast.literal_eval(row)            # Make the string returned by the Tokenizer iterable
+            for token, tag in pos_tag(iterable):
                 
                 pos = tag[0].lower()
-                # Check the token's Part-of-Speech Tag for better lemmatization
-                if pos not in ['a' , 'r' , 'n' , 'v']:
-                    pos = 'n' # Default is 'Noun'
+                if pos not in ['a' , 'r' , 'n' , 'v']:  # Check the token's Part-of-Speech Tag for better lemmatization
+                    pos = 'n'                           # Default is 'Noun'
         
-                lemma = lemmatizer.lemmatize(token,pos)
+                lemma = lemmatizer.lemmatize(token,pos) # Create lemmas with the Wordnet Lemmatizer
                 lemmatized.append(lemma)
             lemmatized_col.append(lemmatized)
         return lemmatized_col

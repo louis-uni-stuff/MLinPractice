@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Preprocessor that replaces text matched by a regex with a predefined text.
-
 @author: marcelklehr
 """
 

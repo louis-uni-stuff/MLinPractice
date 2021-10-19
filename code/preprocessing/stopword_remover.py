@@ -22,14 +22,14 @@ class StopwordRemover(Preprocessor):
         """Remove the stopwords."""
         
         filtered_col = []
-        stops = set(stopwords.words('english'))
-        stops.update(["'s", "\"", "\'", "“", "”", "´", "`"])
-        
+        stops = set(stopwords.words('english'))                 # most of the time we're looking at English tweets
+        stops.update(["'s", "\"", "\'", "“", "”", "´", "`"])    # additionally, our feature extractor
+                                                                # shoudn't have to deal with random symbols
         for row in inputs[0]:
             filtered_row = []
             for w in row:
-                if w not in stops:
-                    filtered_row.append(w)
+                if w not in stops:                              # Remove every stopword
+                    filtered_row.append(w) 
             filtered_col.append(filtered_row)
 
         return filtered_col

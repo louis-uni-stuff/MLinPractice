@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Train or evaluate a single classifier with its given set of hyperparameters.
-
-Created on Wed Sep 29 14:23:48 2021
-
 @author: lbechberger
 """
 
@@ -16,20 +13,26 @@ from sklearn.neighbors import KNeighborsClassifier
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Classifier")
+# mandatory
 parser.add_argument("input_file", help = "path to the input pickle file")
-parser.add_argument("-s", '--seed', type = int, help = "seed for the random number generator", default = None)
+# optional
 parser.add_argument("-e", "--export_file", help = "export the trained classifier to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import a trained classifier from the given location", default = None)
-parser.add_argument("-m", "--majority", action = "store_true", help = "majority class classifier", default = None)
+parser.add_argument("-s", '--seed', type = int, help = "seed for the random number generator", default = None)
+# baseline classifiers
 parser.add_argument("-q", "--frequency", action = "store_true", help = "label-frequency class classifier", default = None)
+parser.add_argument("-m", "--majority", action = "store_true", help = "majority class classifier", default = None)
+# classifiers
+parser.add_argument("--knn", action = "store_true", help = "use KNN classifier", default=None)
 parser.add_argument("--svm", action = "store_true", help = "svm classifier", default = None)
+# evaluation metrics
 parser.add_argument("-a", "--accuracy", action = "store_true", help = "evaluate using accuracy")
 parser.add_argument("-b", "--balanced_accuracy", action = "store_true", help = "evaluate using balanced accuracy")
+parser.add_argument("-f", "--f1_score", action = "store_true", help = "evaluate using the F1 score (or F-measure)")
 parser.add_argument("-n", "--informedness", action = "store_true", help = "evaluate using informedness")
 parser.add_argument("-k", "--kappa", action = "store_true", help = "evaluate using Cohen's kappa")
-parser.add_argument("-f", "--f1_score", action = "store_true", help = "evaluate using the F1 score (or F-measure)")
-parser.add_argument("--knn", action = "store_true", help = "use KNN classifier", default=None)
 parser.add_argument("--mcc", action = "store_true", help = "evaluate using Mathews Correlation coefficient")
+
 args = parser.parse_args()
 
 # load data

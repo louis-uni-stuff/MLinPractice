@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Preprocessor that lowercases the original tweet text.
-
 @author: marcelklehr
 """
 

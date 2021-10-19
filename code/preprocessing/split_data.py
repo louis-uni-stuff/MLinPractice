@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Splits the preprocessed data into training, validation, and test set.
-
-Created on Tue Sep 28 16:45:51 2021
-
 @author: lbechberger
 """
 

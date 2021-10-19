@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Runs the specified collection of feature extractors.
-
-Created on Wed Sep 29 11:00:24 2021
-
 @author: lbechberger
 """
 
@@ -24,27 +21,30 @@ from code.util import COLUMN_HASHTAGS, COLUMN_MENTIONS, COLUMN_PHOTOS, COLUMN_RE
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Feature Extraction")
+# mandatory
 parser.add_argument("input_file", help = "path to the input csv file")
 parser.add_argument("output_file", help = "path to the output pickle file")
+# optional
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import an existing pipeline from the given location", default = None)
+# features
+parser.add_argument("-b", "--month", action = "store_true", help = "compute the month the tweet was posted")
 parser.add_argument("-c", "--char_length", action = "store_true", help = "compute the number of characters in the tweet")
+parser.add_argument("-d", "--daytime", action = "store_true", help = "compute the time of day the tweet was posted")
 parser.add_argument("-n", "--ner", action = "store_true", help = "Apply Named-Entity-Recognition on the tweet")
+parser.add_argument("-p", "--photos_count", action = "store_true", help = "compute the number of photos in the tweet")
+parser.add_argument("-r", "--retweet_binary", action = "store_true", help = "compute the binary of if the tweet is a retweet")
 parser.add_argument("-t", "--tfidf", action = "store_true", help = "compute word-wise tf-idf")
-parser.add_argument("--sentiment", action = "store_true", help = "compute the tweet sentiment")
-parser.add_argument("--threads", action = "store_true", help = "match tweets that are part of a thread")
+parser.add_argument("-u", "--url_count", action = "store_true", help = "compute the number of URLs used in the tweet")
+parser.add_argument("-v", "--video_binary", action = "store_true", help = "compute the binary of if the tweet is a video")
+parser.add_argument("-w", "--weekday", action = "store_true", help = "compute the day of the week the tweet was posted")
 parser.add_argument("--hashtag_count", action = "store_true", help = "compute the number of hashtags in the tweet")
+parser.add_argument("--item_count", action = "store_true", help = "compute the absolute count of items, else compute boolean if items > 0")
 parser.add_argument("--mentions_count", action = "store_true", help = "compute the number of mentions in the tweet")
 parser.add_argument("--reply_to_count", action = "store_true", help = "compute the number of accounts replied to in the tweet")
-parser.add_argument("-p", "--photos_count", action = "store_true", help = "compute the number of photos in the tweet")
-parser.add_argument("-u", "--url_count", action = "store_true", help = "compute the number of URLs used in the tweet")
-parser.add_argument("--item_count", action = "store_true", help = "compute the absolute count of items, else compute boolean if items > 0")
-parser.add_argument("-v", "--video_binary", action = "store_true", help = "compute the binary of if the tweet is a video")
-parser.add_argument("-r", "--retweet_binary", action = "store_true", help = "compute the binary of if the tweet is a retweet")
-parser.add_argument("-w", "--weekday", action = "store_true", help = "compute the day of the week the tweet was posted")
-parser.add_argument("-b", "--month", action = "store_true", help = "compute the month the tweet was posted")
 parser.add_argument("--season", action = "store_true", help = "compute the season the tweet was posted")
-parser.add_argument("-d", "--daytime", action = "store_true", help = "compute the time of day the tweet was posted")
+parser.add_argument("--sentiment", action = "store_true", help = "compute the tweet sentiment")
+parser.add_argument("--threads", action = "store_true", help = "match tweets that are part of a thread")
 
 args = parser.parse_args()
 
@@ -69,7 +69,7 @@ else:    # need to create FeatureCollector manually
         # character length of original tweet (without any changes)
         features.append(CharacterLength(COLUMN_TWEET))
     if args.ner:
-        # List of Named Entities
+        # recognized named entity
         features.append(NER(COLUMN_PREPROCESSED_TWEET))
     if args.hashtag_count:
         # number (or if) hashtags used

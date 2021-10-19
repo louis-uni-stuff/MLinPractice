@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
+"""
+Unittester for the sentiment analysis feature extractor.
+@author: marcelklehr
+"""
+
 import unittest
 import pandas as pd
 from code.feature_extraction.sentiment import Sentiment
