@@ -396,7 +396,7 @@ Metric    | Training  | Validation
 Acc       | 0.7853    | 0.7856
 Kappa     | 0.0005    | -0.0053
 F1        | 0.1228    | 0.1166
-Balanced  |
+Balanced  |  0.5001 | 0.5028
 
 <br>
 
