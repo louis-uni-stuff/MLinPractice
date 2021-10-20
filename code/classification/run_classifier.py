@@ -103,7 +103,7 @@ else:   # manually set up a classifier
         log_param("classifier", "knn") # Log for MLflow
         params = {"classifier": "knn"}
 
-        classifier = KNeighborsClassifier(algorithm="auto", weights="distance", n_neighbors=10, random_state = args.seed)
+        classifier = KNeighborsClassifier(algorithm="auto", weights="distance", n_neighbors=10)
         classifier.fit(data["features"], data["labels"].ravel())
 
     elif args.mlp:
