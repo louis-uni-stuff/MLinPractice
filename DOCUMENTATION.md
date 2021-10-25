@@ -23,6 +23,8 @@ As a data source, we use the ["Data Science Tweets 2010-2021" data set (version 
 <br>
 <br>
 
+<div style="page-break-after: always;"></div>
+
 ## Preprocessing
 
 ![](https://i.imgur.com/FS7eeLz.png)
@@ -44,6 +46,8 @@ While discarding data in a foreign language speeds up the preprocessing step by 
 - There are a few inconsistencies between the actual language of a tweet and the tag in the _language_ column. The tag might be retrieved from a user's language setting, i.e. Italian, while the same user has incidentally tweeted in English. So removing non-target language tweets may result in some foreign language tweets being overlooked by `LanguagePruner`, while some target-language tweets are removed as well.
 - If there are not enough tweets in the target language, removal of foreign-language tweets results in too little available data. In this case, textual features, such as TF-IDF, can't be used and the removal of foreign-language tweets should be skipped, while metadata features should be prioritized.
 
+<br>
+
 ### 2. URL removal
 
 Returns a column containing the tweet's content without URLs.
@@ -56,19 +60,17 @@ We used a regular expression in [run_preprocessing.py](https://github.com/team-o
 
 #### Discussion
 
-According to what was argued earlier, removing URLs for the sake of better feature extraction seems perfectly reasonable. But is the feature extraction really better though?
+According to what was argued earlier, removing URLs for the sake of better feature extraction seems perfectly reasonable. But is the feature extraction better?
 If we strictly remove all URLs, we potentially lose important information:
 Does the tweet link to a site? If yes, which site is it, and is this a significant contribution to the virality of the tweet?
 Luckily, the dataset already provides a "URL" column containing the exact URLs to which a tweet refers. If we want to implement features that screen URLs or their contents we are still able to do so!
 
-<br>
+<div style="page-break-after: always;"></div>
 
 ### 3. Lowercase
 
 #### Goal
 We lowercase all tweet texts to be able to reliably match different capitalizations of the same word in downstream preprocessors as well as the classifier.
-
-
 
 Sometimes, however, capitalization is used to distinguish different concepts:
 
@@ -96,6 +98,8 @@ Contractions add redundancy, as they technically are separate tokens, even thoug
 
 #### Implementation Process
 The contractions are expanded by the [Expander](https://github.com/team-one-ML/MLinPractice/blob/main/code/preprocessing/expand.py), while the contraction mapping can be found [here](https://github.com/team-one-ML/MLinPractice/blob/main/code/preprocessing/util/contractions.py). The Implementation stems from [towardsdatascience.com](https://towardsdatascience.com/a-practitioners-guide-to-natural-language-processing-part-i-processing-understanding-text-9f4abfd13e72) and uses a list mapping contractions to their respective long forms. 
+
+<div style="page-break-after: always;"></div>
 
 #### Discussion
 Adding this preprocessing step is not necessarily crucial to the preprocessing and one might argue that removing it may speed up the pipeline. However, it is a simple way to minimize the vocabulary of our dataset by avoiding unnecessary duplicate tokens and ensuring the fidelity of our model to semantics. To clarify, tokens with the same semantics should be classified as one item in a vocabulary, no matter if they are contracted or not.
@@ -185,7 +189,9 @@ Our goal was to get rid of very common English words which can not be used for m
 We created the class [StopwordRemover](https://github.com/team-one-ML/MLinPractice/blob/main/code/preprocessing/stopword_remover.py) which accesses a corpus from NLTK containing English stopwords. Every word contained in this corpus and some additional meaningless symbols (specified manually by us) are filtered out.
 
 #### Discussion
-A significant downside of this preprocessing step is that it can influence our sentiment analyzer in a negative way by distorting context - depending on which words are filtered and which are not. 
+A significant downside of this preprocessing step is that it can negatively influence our sentiment analyzer by distorting context - depending on which words are filtered and which are not. 
+
+<div style="page-break-after: always;"></div>
 
 ##### Example
 Original tweet:
@@ -208,6 +214,7 @@ While being aware of this issue, we still left the preprocessing step in our pip
 ![](https://i.imgur.com/j5s7bDX.png)
 
 <br>
+<div style="page-break-after: always;"></div>
 
 ### Character Length
 
@@ -274,7 +281,7 @@ The sentiment is often cited as one of the driving forces of content in social n
 Extracts "novelty" scores for the $200$ most frequent words (across all tweets).
 
 #### Goal
-In order to provide the classifier with words that are relevant for classification, we use a TF-IDF approach, which calculates the term frequency divided by the inverse document frequency.
+To provide the classifier with words that are relevant for classification, we use a TF-IDF approach, which calculates the term frequency divided by the inverse document frequency.
 
 #### Implementation Process
 We use the [TfIdfVectorizer from scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html) to calculate TF-IDF scores for the top $200$ words that appear in the dataset after removing all stopwords.
@@ -294,7 +301,7 @@ Tweeters can group multiple tweets using an informal mechanism called threads. T
 We use a simple Regular Expression to match the thread emoji, as well as number expressions like $`1/`$ or $`1/4`$ at the beginning or end of the tweet. 
 
 #### Discussion
-We considered matching the word 'thread' as well but decided against it since many tweets that merely respond to threads also mention the word thread. Threads may either affect virality positively because tweeters are able to post more content in one go, or negatively, because the audience is not patient enough to read the whole thread. One way or another, we believe threads are an important attribute in characterizing a tweet and may thus be equally important in influencing virality.
+We considered matching the word 'thread' as well but decided against it since many tweets that merely respond to threads also mention the word thread. Threads may either affect virality positively because tweeters can post more content in one go, or negatively. After all, the audience is not patient enough to read the whole thread. One way or another, we believe threads are an important attribute in characterizing a tweet and may thus be equally important in influencing virality.
 
 <br>
 
@@ -316,7 +323,7 @@ During testing, we noticed a major shortcoming of this feature: Most of the time
 <br>
 
 ## Dimensionality Reduction
-After feature extraction, we experimentally visualized our feature space using [t-distributed stochastic neighbor embedding (t-SNE)](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding), which stochastically embeds the complete feature space in a two-dimensional space for visualization purposes (positive samples are green, negative ones are red). The result is not very encouraging in terms of being able to learn a classification from the feature space, however, t-SNE mainly accounts for variance and does not take into account the informativeness of the individual dimensions with respect to the task. Unsurprisingly, our attempts to use dimensionality reduction techniques, which also mostly take into account variance, for the purposes of improving the classifier were mostly futile.
+After feature extraction, we experimentally visualized our feature space using [t-distributed stochastic neighbor embedding (t-SNE)](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding), which stochastically embeds the complete feature space in a two-dimensional space for visualization purposes (positive samples are green, negative ones are red). The result is not very encouraging in terms of being able to learn a classification from the feature space, however, t-SNE mainly accounts for variance and does not take into account the informativeness of the individual dimensions concerning the task. Unsurprisingly, our attempts to use dimensionality reduction techniques, which also mostly take into account variance, to improve the classifier were mostly futile.
 
 ![t-SNE visualization of our feature space](https://i.imgur.com/Yp43M4Q.png)
 
@@ -410,7 +417,7 @@ We ran our data set through an SVM classifier as we believed it would perform be
 We employed SciKit learn's [LinearSVC]() implementation in [run_classifier.py]().
 
 #### Discussion
-Results after hyperparameter optimization reveal that training using this classifier went comparatively well and did neither overfit nor underfit. Nonetheless, a balanced accuracy of 0.7 is still rather underwhelming.
+Results after hyperparameter optimization reveal that training using this classifier went comparatively well and did neither overfit nor underfit. Nonetheless, a balanced accuracy of $0.7$ is still rather underwhelming.
 
 Metric    | Training  | Validation
 ---       |---        |---
@@ -471,8 +478,11 @@ Due to the enhanced sophistication of MLP compared to KNN or SVM, we thought the
 #### Implementation Process
 We used the class [MLPClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html) which takes multiple hyperparameters. These can be specified in the CLI. If none are specified, the parameters that performed best during testing are selected. We optimized the hyperparameters using [grid_search.sh](https://github.com/team-one-ML/MLinPractice/blob/main/code/classification/grid_search.sh) and [mlflow](https://mlflow.org/). Tested hyperparameters include hidden_layer_sizes, activation, solver, and max_fun. The last did not make an impact on classification quality at all.
 
+
 #### Discussion
 To our surprise, MLP performed slightly worse than SVM. Especially the balanced accuracy is significantly lower (∆ 0.1390 for the validation set) than the balanced accuracy of SVM.
+
+<div style="page-break-after: always;"></div> 
 
 **Best Results from Hyperparameter Optimization:**
 
@@ -525,7 +535,7 @@ The *$F_1$ score* combines precision and recall scores into a singular value bet
 <br>
 
 ## Conclusion
-Our best setup turns out to be Support Vector Machines without dimensionality reduction. This may be due to the fact that PCA does not take labels into account when selecting the best dimensions. Additionally, the quality of classification in this task probably depends on a multitude of minor features.
+Our best setup turns out to be Support Vector Machines without dimensionality reduction. This may be because PCA does not take labels into account when selecting the best dimensions. Additionally, the quality of classification in this task probably depends on a multitude of minor features.
 
 Running our best classifier on the split-off test data set achieves the following evaluation scores:
 
@@ -534,12 +544,15 @@ Metric       | Values
 ---          | ---
 Acc          | 0.7155
 Kappa        | 0.1984
-$F_1$           | 0.3151
+$F_1$        | 0.3151
 Balanced Acc | 0.7064
 Informedness | 0.4128
 MCC          | 0.2582
 
 
-This result indicates a good, even if not outstanding, performance of the classifier in generalizing the phenomenon of tweet virality from our training and validation sets to previously unseen data. While the raw accuracy score is lower than on our baseline model (0.7853), Cohen's Kappa is markedly higher (Baseline: 0.0005). This is likely due to the imbalanced nature of our data set.
+This result indicates a good, even if not outstanding, performance of the classifier in generalizing the phenomenon of tweet virality from our training and validation sets to previously unseen data. While the raw accuracy score is lower than on our baseline model ($0.7853$S), Cohen's Kappa is markedly higher (Baseline: $0.0005$). This is likely due to the imbalanced nature of our data set.
 
 Given the features, we extracted from the data and the model we selected, it appears to be possible to classify tweets as viral to some extent, even if we would have hoped for better accuracy.
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script>
